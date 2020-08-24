@@ -2,6 +2,7 @@ package clui
 
 import (
 	xs "github.com/huandu/xstrings"
+	term "github.com/nsf/termbox-go"
 )
 
 /*
@@ -17,6 +18,7 @@ type Label struct {
 	direction   Direction
 	multiline   bool
 	textDisplay Align
+	onClick     func(Event)
 }
 
 /*
@@ -173,4 +175,31 @@ func (l *Label) SetTextDisplay(align Align) {
 	}
 
 	l.textDisplay = align
+}
+
+func (l *Label) OnClick(fn func(Event)) {
+	l.onClick = fn
+}
+
+func (l *Label) ProcessEvent(event Event) bool {
+	if !l.Enabled() {
+		return false
+	}
+
+	if event.Type == EventMouse {
+		if event.Key == term.MouseLeft {
+			GrabEvents(l)
+			return true
+		} else if event.Key == term.MouseRelease {
+			ReleaseEvents()
+			if event.X >= l.x && event.Y >= l.y && event.X < l.x+l.width && event.Y < l.y+l.height {
+				if l.onClick != nil {
+					l.onClick(event)
+				}
+			}
+			return true
+		}
+	}
+
+	return false
 }
