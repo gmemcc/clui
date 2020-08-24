@@ -2,7 +2,6 @@ package clui
 
 import (
 	xs "github.com/huandu/xstrings"
-	"unicode"
 )
 
 /*
@@ -96,7 +95,8 @@ func (l *Label) Draw() {
 				break
 			}
 			n := 1
-			if unicode.Is(unicode.Han, elem.Ch) {
+			c := elem.Ch
+			if c >= 0x3400 {
 				n = 2
 			}
 			if elem.Type == ElemLineBreak {
@@ -105,7 +105,7 @@ func (l *Label) Draw() {
 			} else if elem.Type == ElemPrintable {
 				SetTextColor(elem.Fg)
 				SetBackColor(elem.Bg)
-				putCharUnsafe(xx, yy, elem.Ch)
+				putCharUnsafe(xx, yy, c)
 
 				if l.direction == Horizontal {
 					xx += n
