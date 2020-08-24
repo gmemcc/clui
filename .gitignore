@@ -4,3 +4,7 @@
 *.log
 *.exe
 *.diff
+
+.idea
+
+/go.sum

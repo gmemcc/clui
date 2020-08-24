@@ -79,7 +79,7 @@ func mainLoop() {
 
 		dlg := ui.CreateConfirmationDialog(
 			"<c:blue>"+action,
-			"Click any button or press <c:yellow>SPACE<c:> to close the dialog",
+			"Click any button or press <c:yellow>SPACE<c:> to close the dialog", 15,
 			btns, ui.DialogButton1)
 		dlg.OnClose(func() {})
 	})

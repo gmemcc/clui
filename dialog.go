@@ -37,8 +37,8 @@ type SelectDialog struct {
 // title is a dialog title
 // message is a text inside dialog for user to be notified of a fact
 // button is a title for button inside dialog.
-func CreateAlertDialog(title, message string, button string) *ConfirmationDialog {
-	return CreateConfirmationDialog(title, message, []string{button}, 0)
+func CreateAlertDialog(title, message string, width int, button string) *ConfirmationDialog {
+	return CreateConfirmationDialog(title, message, width, []string{button}, 0)
 }
 
 // CreateConfirmationDialog creates new confirmation dialog.
@@ -51,7 +51,7 @@ func CreateAlertDialog(title, message string, button string) *ConfirmationDialog
 // defaultButton is the number of button that is active right after
 //  dialog is created. If the number is greater than the number of
 //  buttons, no button is active
-func CreateConfirmationDialog(title, question string, buttons []string, defaultButton int) *ConfirmationDialog {
+func CreateConfirmationDialog(title, question string, width int, buttons []string, defaultButton int) *ConfirmationDialog {
 	dlg := new(ConfirmationDialog)
 
 	if len(buttons) == 0 {
@@ -60,7 +60,7 @@ func CreateConfirmationDialog(title, question string, buttons []string, defaultB
 
 	cw, ch := term.Size()
 
-	dlg.View = AddWindow(cw/2-12, ch/2-8, 30, 3, title)
+	dlg.View = AddWindow((cw-width)/2, ch/2-8, width, 3, title)
 	WindowManager().BeginUpdate()
 	defer WindowManager().EndUpdate()
 	dlg.View.SetConstraints(30, 3)
@@ -70,7 +70,7 @@ func CreateConfirmationDialog(title, question string, buttons []string, defaultB
 
 	fbtn := CreateFrame(dlg.View, 1, 1, BorderNone, 1)
 	CreateFrame(fbtn, 1, 1, BorderNone, Fixed)
-	lb := CreateLabel(fbtn, 10, 3, question, 1)
+	lb := CreateLabel(fbtn, AutoSize, 3, question, 1)
 	lb.SetMultiline(true)
 	CreateFrame(fbtn, 1, 1, BorderNone, Fixed)
 
