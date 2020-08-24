@@ -60,7 +60,7 @@ func CreateConfirmationDialog(title, question string, width, height int, buttons
 
 	cw, ch := term.Size()
 
-	dlg.View = AddWindow((cw-width)/2, ch/2-8, width, 3, title)
+	dlg.View = AddWindow((cw-width)/2, (ch-height-8)/2, width, height, title)
 	WindowManager().BeginUpdate()
 	defer WindowManager().EndUpdate()
 	dlg.View.SetConstraints(30, 3)
